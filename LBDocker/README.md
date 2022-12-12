@@ -1,3 +1,8 @@
+Для запуска в корне с файлом docker-compose.yaml выполните команду 
+```
+docker compose up -d
+```
+
 ## 1. Начальное состояние, все работет
 ![image](https://user-images.githubusercontent.com/120394617/207155133-e8882b16-8950-469c-9eb6-d25d06f8469f.png)
  
