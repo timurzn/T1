@@ -1,0 +1,71 @@
+version: '2'
+services:
+  #Nginx Service1
+  webserver1:
+    image: nginx:1.23.2-alpine
+    container_name: webserver1
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "83:80"
+    networks:
+      t1-network:
+        ipv4_address: 172.28.0.11
+    volumes:
+      - ./webserver1/nginx:/usr/share/nginx/html
+
+  #Nginx Service2
+  webserver2:
+    image: nginx:1.23.2-alpine
+    container_name: webserver2
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "81:80"
+    networks:
+      t1-network:
+        ipv4_address: 172.28.0.12
+    volumes:
+      - ./webserver2/nginx:/usr/share/nginx/html
+  
+  #HAProxy1 
+  haproxy1:
+    build: ./haproxy1
+    container_name: haproxy1
+    restart: unless-stopped
+    tty: true
+    privileged: true
+    ports:
+      - "82:80"
+    networks:
+      t1-network:
+        ipv4_address: 172.28.0.21
+    volumes:
+      - ./haproxy1/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./haproxy1/keepalived.cfg:/etc/keepalived/keepalived.cfg:ro
+  
+  #HAProxy2
+  haproxy2:
+    build: ./haproxy1
+  # image: haproxy:1.5
+    container_name: haproxy2
+    restart: unless-stopped
+    tty: true
+    privileged: true
+    ports:
+      - "84:80"
+    networks:
+      t1-network:
+        ipv4_address: 172.28.0.22
+    volumes:
+      - ./haproxy2/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./haproxy2/keepalived.cfg:/etc/keepalived/keepalived.cfg:ro
+
+#Docker Networks
+networks:
+  t1-network:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.28.0.0/24
+         gateway: 172.28.0.1
