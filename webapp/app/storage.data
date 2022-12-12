@@ -1,0 +1,19 @@
+{
+  "person": [
+    {
+      "car": "bmw"
+    },
+    {
+      "hat": "red"
+    },
+    {
+      "car": "audi"
+    },
+    {
+      "car": "mercedes"
+    },
+    {
+      "verb": "was"
+    }
+  ]
+}
